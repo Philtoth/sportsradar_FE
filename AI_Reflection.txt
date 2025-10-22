@@ -1,0 +1,19 @@
+AIs used: Chatgpt, Vercel
+=> Chatgpt hallucinates or mixes up different approaches that do not work
+    prompting needs to be  more precise
+=> Vercel is usually more reliable
+
+Day-1:
+
+initiated project with vite + react + tailwind
+first of all the was confusion because chatgpt led me on the wrong path!
+Then I discovered the correct way to implemente tailwind in vite
+https://tailwindcss.com/docs/installation/using-vite
+
+I asked chatgpt to create me a small plan on what to do for starters
++ wanted it to give me a pdf from its cnversation with me 
+Result: It was horrible
+
+I googled for possible google chrome extension that would do the same thing
+and the result was as I would have originally expected!
+
