@@ -17,3 +17,5 @@ Result: It was horrible
 I googled for possible google chrome extension that would do the same thing
 and the result was as I would have originally expected!
 
+I was not really satisfied with the approaches
+I will try checking out different libraries !
