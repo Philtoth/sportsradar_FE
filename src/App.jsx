@@ -8,12 +8,12 @@ export default function App() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <nav className="bg-blue-600 text-white p-4 flex justify-between items-center shadow">
-        <h1 className="text-lg font-semibold">🏟️ Sportradar Events</h1>
+    <div className="min-h-screen text-gray-800">
+      <nav className="bg-blue-600 text-white p-3 flex justify-between items-center shadow">
+        <h1 className="text-shadow-md font-semibold">Events</h1>
         <div className="space-x-4">
-          <Link to="/" className="hover:underline">Calendar</Link>
-          <Link to="/add" className="hover:underline">Add Event</Link>
+          <Link to="/" className="hover:darkgrey">Calendar</Link>
+          <Link to="/add" className="hover:darkgrey">Add Event</Link>
         </div>
       </nav>
 
