@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 export default function EventDetailPage() {
-    const {sport,homeTeam,awayTeam,dateVenue,timeVenueUTC} = useParams();
-    
+    const { sport, homeTeam, awayTeam, dateVenue, timeVenueUTC } = useParams();
+
     // save last date visited
     useEffect(() => {
         if (dateVenue) {
             sessionStorage.setItem("lastViewedDate", dateVenue);
         }
     }, [dateVenue]);
+
 
     //render detailspage
     return (

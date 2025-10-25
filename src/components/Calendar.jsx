@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 export default function Calendar({ sportEvents }) {
     // get savedData if available
+    const navigate = useNavigate(); // used for hook
     const savedDate = sessionStorage.getItem("lastViewedDate");
     const [currentDate, setCurrentDate] = useState(
         savedDate ? new Date(savedDate) : new Date()
@@ -24,10 +25,17 @@ export default function Calendar({ sportEvents }) {
     // Get first day of month and total days  
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-    const monthNames = [
+    let dayNames = [
+        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+    ];
+    let monthNames = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
+
+    const rearrangeDayNames = (dayNames) => {
+        return dayNames.slice(firstDayOfMonth).concat(dayNames.slice(0, firstDayOfMonth));
+    }
 
     // goTo dates, thanks javascript for having a 0 based month system ...
     const goToPreviousMonth = () => {
@@ -49,9 +57,7 @@ export default function Calendar({ sportEvents }) {
     const goToToday = () => {
         setCurrentDate(new Date());
     };
-    const goToAdd = () => {
-        useNavigate("/add");
-    }
+
 
     // validation and link state creation
     const checkData = (data) => {
@@ -83,7 +89,7 @@ export default function Calendar({ sportEvents }) {
             //#THOUGHTS URL shows %20%20%20 ?? but it still works fine 
             to={`/event/${data.sport}/${data.homeTeam?.name}/${data.awayTeam?.name}/${data.dateVenue}/${data.timeVenueUTC}`}
 
-            className="block text-[10px] sm:text-xs md:text-sm text-blue-600 underline truncate"
+            className="block text-[10px] sm:text-xs md:text-sm text-blue-500 hover:text-blue-600 no-underline truncate hover:cursor-help"
         >
             {/* only show matchup if both teams are available */}
             {data.homeTeam?.name && data.awayTeam?.name ? (
@@ -143,9 +149,9 @@ export default function Calendar({ sportEvents }) {
     const calendarDays = [];
 
     // Add empty cells for days before month starts
-    for (let i = 0; i < firstDayOfMonth; i++) {
-        calendarDays.push(<div key={`empty-${i}`} className="border p-1 sm:p-2 aspect-square rounded"></div>);
-    }
+    // for (let i = 0; i < firstDayOfMonth; i++) {
+    //     calendarDays.push(<div key={`empty-${i}`} className="border p-1 sm:p-2 aspect-square rounded"></div>);
+    // }
 
     // Add cells for each day of the month
     for (let day = 1; day <= daysInMonth; day++) {
@@ -159,22 +165,22 @@ export default function Calendar({ sportEvents }) {
         const isToday = new Date().getDate() === day &&
             new Date().getMonth() === currentMonth &&
             new Date().getFullYear() === currentYear;
-
+        const date = `${currentYear}-` + `${currentMonth + 1}-` + `${day < 10 ? "0" + day : day}`;
+        // Create a proper Date object for this day
         calendarDays.push(
-            <div onClick={goToAdd(new Date(day,))}
+            <div
                 key={day}
-                className={`border p-1 sm:p-2 aspect-square relative bg-white hover:bg-red-400 rounded ${isToday ? 'ring-2 ring-blue-500' : ''
-                    }`}
+                className={`inset-shadow-sm inset-shadow-blue-300 bg-blue-100 border p-1 sm:p-2 aspect-square relative rounded ${isToday ? 'ring-2 ring-blue-500' : ''}`}
+            // not allowed here
             >
-                <p className={`text-xs sm:text-sm md:text-base font-medium ${isToday ? 'text-blue-600 font-bold' : ''}`}>
+                <p className={`text-xs sm:text-sm md:text-base bg-blue-500 rounded hover:bg-blue-600 hover:cursor-pointer font-medium ${isToday ? 'text-blue-800' : ''}`}
+                    onClick={() => navigate(`/add/${encodeURIComponent(date)}`)}
+                >
                     {day}
+
                 </p>
-                <div className="mt-0.5 sm:mt-1 space-y-0.5 sm:space-y-1">
-
-                    {
-                        dayEvents.map(e => (createLink(e)))
-                    }
-
+                <div className="text-base sm:text-lg md:text-xl lg:text-1xl font-bold">
+                    {dayEvents.map(e => createLink(e))}
                 </div>
             </div>
         );
@@ -218,7 +224,7 @@ export default function Calendar({ sportEvents }) {
 
                 {/* Weekday Headers */}
                 <div className="grid grid-cols-7 gap-1 sm:gap-2">
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+                    {rearrangeDayNames(dayNames).map(day => (
                         <div key={day} className="text-center font-semibold text-gray-700 py-1 sm:py-2 text-xs sm:text-sm md:text-base">
                             {day}
                         </div>

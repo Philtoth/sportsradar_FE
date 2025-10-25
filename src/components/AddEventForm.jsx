@@ -1,23 +1,24 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import { useNavigate, useParams} from "react-router-dom";
 export default function AddEventForm() {
+  const { date} = useParams();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     key: window.crypto.randomUUID(),
     sport: "",
     homeTeam: "",
     awayTeam: "",
-    date: "",
+    date: date ? date : "",
     time: ""
   });
-
 
   // submit form, set added date to lastviewed to get calendar dynamic
   const handleSubmit = (e) => {
     e.preventDefault();
     sessionStorage.setItem(`${form.key}`, JSON.stringify(form));
     sessionStorage.setItem("lastViewedDate", form.date);
-    useNavigate("/calendar");
+    navigate("/");
   };
 
   // render form page
@@ -38,7 +39,7 @@ export default function AddEventForm() {
       ))}
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
         Add Event
       </button>
