@@ -200,7 +200,7 @@ export const mockData = {
             "originCompetitionName": "AFC Champions League",
             "sport": "football"
         },
-        // --- Added sample events ---
+          // --- Additional sample events  ---
         {
             "season": 2025,
             "status": "scheduled",

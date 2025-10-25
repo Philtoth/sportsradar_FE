@@ -7,7 +7,7 @@ Day-1:
 
 initiated project with vite + react + tailwind
 first of all the was confusion because chatgpt led me on the wrong path!
-Then I discovered the correct way to implemente tailwind in vite
+Then I discovered the correct way to implement tailwind in vite
 https://tailwindcss.com/docs/installation/using-vite
 
 I asked chatgpt to create me a small plan on what to do for starters
@@ -19,3 +19,21 @@ and the result was as I would have originally expected!
 
 I was not really satisfied with the approaches
 I will try checking out different libraries !
+
+Resorted back to React , created my diploma project with it , were my first steps into the js/programming-world
+
+Day-2:
+I create my project-template from Day-1 into more functional working site (Task 4 not optimized yet)
+I will cover styling with tailwind rather at the end I just want the logic to be done
+Tackled Task 1 & 2 fully
+Tackling Task 3 => currently form data (=details page data) 
+    Maybe asking chatgpt how to adapt react-components state
+
+Day 3: 
+fixed sessionstorage + added date dynamic effects / states
+combined data into a single object instead of mutation
+fixed detailpage-view on newly added components
+
+
+
+
