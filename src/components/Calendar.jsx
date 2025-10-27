@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight} from 'react-icons/fa';
 export default function Calendar({ sportEvents }) {
     // get savedData if available
     const navigate = useNavigate(); // used for hook
@@ -54,9 +55,6 @@ export default function Calendar({ sportEvents }) {
         }
         setCurrentDate(new Date(currentYear, currentMonth, 1));
     };
-    const goToToday = () => {
-        setCurrentDate(new Date());
-    };
 
 
     // validation and link state creation
@@ -81,7 +79,8 @@ export default function Calendar({ sportEvents }) {
     }
 
     // create link to detailspage
-    const createLink = (data) => {
+    const createLink = (data ,isToday) => {
+        
         return <Link
             // resets state for each month, add event details to URL
             key={checkData([data.sport, data.homeTeam?.name, data.awayTeam?.name, data.dateVenue, data.timeVenueUTC])}
@@ -89,15 +88,23 @@ export default function Calendar({ sportEvents }) {
             //#THOUGHTS URL shows %20%20%20 ?? but it still works fine 
             to={`/event/${data.sport}/${data.homeTeam?.name}/${data.awayTeam?.name}/${data.dateVenue}/${data.timeVenueUTC}`}
 
-            className="block text-[10px] sm:text-xs md:text-sm text-blue-500 hover:text-blue-600 no-underline truncate hover:cursor-help"
+            className="block text-[10px] sm:text-xs md:text-sm hover:text-blue-600 no-underline "
         >
             {/* only show matchup if both teams are available */}
-            {data.homeTeam?.name && data.awayTeam?.name ? (
+            {/* {data.homeTeam?.name && data.awayTeam?.name ? (
                 `${data.homeTeam.name} vs ${data.awayTeam.name}`
             ) :
                 (
                     "TBD"
-                )}
+                )} */}
+            {/* { maybe add some icons later
+                <IconContext value={{ color: 'blue', size: '24px' }}>
+                    <FaCalendarCheck ></FaCalendarCheck>
+                </IconContext>
+            } */}
+            <div className={`my-0.5 text-xs sm:text-sm md:text-base sm:my-1 font-medium ${isToday? `bg-teal-500 hover:bg-teal-700`: "bg-blue-500 hover:bg-blue-700"}
+                 hover:text-white rounded-2xl hover:rounded-2xl transform transition duration-300 hover:scale-105
+                 hover:cursor-pointer`}>Event</div>
         </Link>
     }
 
@@ -109,7 +116,7 @@ export default function Calendar({ sportEvents }) {
                 const e = JSON.parse(sessionStorage.getItem(key));
                 if (!e || !e.date) continue;
 
-                // 🧠 Normalize structure to match mock data shape
+                // Normalize structure to match mock data shape
                 stored.push({
                     sport: e.sport,
                     homeTeam: { name: e.homeTeam },
@@ -142,16 +149,8 @@ export default function Calendar({ sportEvents }) {
             )
     ];
 
-
-
-
     // Create array of day cells including empty cells for alignment
     const calendarDays = [];
-
-    // Add empty cells for days before month starts
-    // for (let i = 0; i < firstDayOfMonth; i++) {
-    //     calendarDays.push(<div key={`empty-${i}`} className="border p-1 sm:p-2 aspect-square rounded"></div>);
-    // }
 
     // Add cells for each day of the month
     for (let day = 1; day <= daysInMonth; day++) {
@@ -170,17 +169,20 @@ export default function Calendar({ sportEvents }) {
         calendarDays.push(
             <div
                 key={day}
-                className={`inset-shadow-sm inset-shadow-blue-300 bg-blue-100 border p-1 sm:p-2 aspect-square relative rounded ${isToday ? 'ring-2 ring-blue-500' : ''}`}
+                className={`inset-shadow-sm inset-shadow-blue-300 bg-blue-400 border rounded p-1 sm:p-2 aspect-square relative ${isToday ? 'bg-teal-400 ring-2 inset-shadow-amber-400 ring-teal-400' : ''}`}
             // not allowed here
             >
-                <p className={`text-xs sm:text-sm md:text-base bg-blue-500 rounded hover:bg-blue-600 hover:cursor-pointer font-medium ${isToday ? 'text-blue-800' : ''}`}
+                <p className={`w-6 flex justify-center text-xs sm:text-sm md:text-base font-medium bg-blue-500
+                 hover:bg-blue-700 hover:text-white  hover:rounded-full transform rounded-full hover:shadow-xl transition duration-300 hover:scale-105
+                 hover:cursor-pointer ${isToday ? ' bg-teal-500 hover:bg-teal-700' : ''}`}
                     onClick={() => navigate(`/add/${encodeURIComponent(date)}`)}
                 >
                     {day}
 
                 </p>
+                {/* eventdetails here */}
                 <div className="text-base sm:text-lg md:text-xl lg:text-1xl font-bold">
-                    {dayEvents.map(e => createLink(e))}
+                    {dayEvents.map(e => createLink(e,isToday))}
                 </div>
             </div>
         );
@@ -189,36 +191,30 @@ export default function Calendar({ sportEvents }) {
 
     // render calendar
     return (
-        < div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        < div className="max-w-5xl mx-auto px-2 sm:px-4 lg:px-8">
             <div className="space-y-3 sm:space-y-4">
                 {/* Navigation Controls */}
-                <div className="flex items-center justify-center gap-4 sm:gap-8 py-3 sm:py-4">
+                <div className="flex sm:inline-flex items-center justify-center gap-4 sm:gap-8 py-3 sm:py-4">
                     <button
                         onClick={goToPreviousMonth}
-                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded text-base sm:text-lg md:text-xl font-semibold"
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500  hover:text-white  hover:rounded-2xl transform hover:shadow-xl transition duration-300 hover:scale-105 rounded text-base sm:text-lg md:text-xl font-semibold"
                         title="Previous Month"
                     >
-                        ‹
+                        <FaArrowLeft></FaArrowLeft>
                     </button>
 
                     <div className="text-center min-w-[180px] sm:min-w-[220px]">
                         <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
                             {monthNames[currentMonth]} {currentYear}
                         </h2>
-                        <button
-                            onClick={goToToday}
-                            className="sm:text-lg md:text-xl lg:text-2xl text-blue-600 hover:bg-blue-100 rounded px-2 py-0.5"
-                        >
-                            Today
-                        </button>
                     </div>
 
                     <button
                         onClick={goToNextMonth}
-                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded text-base sm:text-lg md:text-xl font-semibold"
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500  hover:text-white  hover:rounded-2xl transform hover:shadow-xl transition duration-300 hover:scale-105 rounded text-base sm:text-lg md:text-xl font-semibold"
                         title="Next Month"
                     >
-                        ›
+                       <FaArrowRight></FaArrowRight>
                     </button>
                 </div>
 

@@ -8,4 +8,7 @@ export default defineConfig({
     react(), 
     tailwindcss(),
   ],
+  server: {
+    allowedHosts: ['.example.com', 'nonpatterned-lovella-soaringly.ngrok-free.dev'],
+  }
 })

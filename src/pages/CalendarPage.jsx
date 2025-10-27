@@ -5,7 +5,7 @@ export default function CalendarPage() {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold mb-4">Sports Event Calendar</h2>
+            <h2 className="text-xl font-semibold">Event-Calendar</h2>
             <Calendar sportEvents={sportEvents} />
         </div>
     );

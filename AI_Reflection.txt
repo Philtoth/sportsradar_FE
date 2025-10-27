@@ -34,6 +34,9 @@ fixed sessionstorage + added date dynamic effects / states
 combined data into a single object instead of mutation
 fixed detailpage-view on newly added components
 
-
-
+Day 4:
+asked styling related questions , it helped a ton, even if sometimes it was just a typo
+explained tailwind mediabreakpoints very well => misunderstanding previously
+showed me react-icons
+helped for deciding on a some color-scheme that harmonizes
 
