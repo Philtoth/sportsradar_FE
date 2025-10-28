@@ -1,8 +1,14 @@
 import AddEventForm from "../components/AddEventForm";
+import {motion} from "framer-motion";
 export default function AddEventPage() {
     return (
-        <div>
-            <AddEventForm />
-        </div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >   <AddEventForm />
+        </motion.div>
+
     );
 }
